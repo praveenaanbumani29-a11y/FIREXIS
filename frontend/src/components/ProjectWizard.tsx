@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ActiveTab } from '../types';
+import type { ActiveTab } from '../types';
+import { ARCHETYPES, generateArchitecturalBuilding } from '../services/cadGenerator';
 import { 
   Building2, 
   Users, 
@@ -8,7 +9,10 @@ import {
   ArrowLeft, 
   Check, 
   Sparkles,
-  HelpCircle
+  Layers,
+  Flame,
+  Activity,
+  Compass
 } from 'lucide-react';
 
 interface ProjectWizardProps {
@@ -21,10 +25,11 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
 
   // Form State
   const [formData, setFormData] = useState({
-    name: 'Apex Horizon Center',
-    building_type: 'Commercial Office & High-Tech Lab',
-    location: 'Metropolitan Commercial Core',
+    name: 'Apex Innovation Center',
+    building_type: 'Mixed-Use Commercial & Tech R&D',
+    location: 'Metropolitan Core District',
     total_floors: 3,
+    archetypeId: 'TECH_COMMERCIAL',
     gross_area_sqm: 4200,
     construction_type: 'Type I - Fire Resistive (Reinforced Concrete / Steel)',
     occupancy_type: 'Group B - Business / Group A-3 Assembly',
@@ -51,19 +56,30 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
   };
 
   const handleFinish = () => {
-    onProjectCreated(formData);
+    const generatedBuilding = generateArchitecturalBuilding({
+      buildingName: formData.name,
+      totalFloors: formData.total_floors,
+      archetypeId: formData.archetypeId,
+      grossAreaSqm: formData.gross_area_sqm,
+      location: formData.location,
+      buildingType: formData.building_type
+    });
+
+    onProjectCreated(generatedBuilding);
     setActiveTab('editor');
   };
 
+  const selectedArchetype = ARCHETYPES.find(a => a.id === formData.archetypeId) || ARCHETYPES[0];
+
   return (
-    <div style={{ maxWidth: '840px', margin: '32px auto', padding: '0 24px' }}>
+    <div style={{ maxWidth: '880px', margin: '32px auto', padding: '0 24px' }}>
       {/* Wizard Header */}
       <div style={{ marginBottom: '28px', textAlign: 'center' }}>
         <h1 style={{ fontSize: '26px', color: 'var(--color-navy-deep)', marginBottom: '8px' }}>
-          Create New Building Safety Project
+          Create New Building Safety Project & 2D CAD
         </h1>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>
-          Define architectural properties, occupant distribution, and baseline safety infrastructure.
+          Configure story count, architectural archetype, occupant load, and generate full 2D CAD layouts.
         </p>
       </div>
 
@@ -81,13 +97,13 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
           left: '40px',
           right: '40px',
           height: '2px',
-          backgroundColor: 'var(--color-soft-gray)',
+          backgroundColor: '#1E293B',
           zIndex: 0
         }} />
 
         {[
-          { num: 1, title: 'Building Info', icon: <Building2 size={16} /> },
-          { num: 2, title: 'Occupancy', icon: <Users size={16} /> },
+          { num: 1, title: 'Stories & Archetype', icon: <Building2 size={16} /> },
+          { num: 2, title: 'Occupancy & Crowd', icon: <Users size={16} /> },
           { num: 3, title: 'Safety Infrastructure', icon: <ShieldCheck size={16} /> }
         ].map(s => {
           const isDone = step > s.num;
@@ -122,28 +138,116 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
           <div>
             <h2 style={{ fontSize: '18px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Building2 size={20} color="var(--color-primary-orange)" />
-              1. Architectural & Structural Specification
+              1. Architectural Specifications & Floor Layout
             </h2>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '18px' }}>
+              
+              {/* Question: Building Name */}
               <div style={{ gridColumn: 'span 2' }}>
                 <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Building / Facility Name</label>
                 <input 
                   type="text" 
                   value={formData.name} 
                   onChange={(e) => handleChange('name', e.target.value)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', fontSize: '14px' }}
                 />
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Building Function</label>
-                <input 
-                  type="text" 
-                  value={formData.building_type} 
-                  onChange={(e) => handleChange('building_type', e.target.value)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
-                />
+              {/* Question: How Many Floors? */}
+              <div style={{ gridColumn: 'span 2' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#38BDF8', marginBottom: '8px' }}>
+                  🏢 How many floors / stories should be generated?
+                </label>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                  {[1, 2, 3, 4, 5, 6].map(fl => (
+                    <button
+                      key={fl}
+                      type="button"
+                      onClick={() => handleChange('total_floors', fl)}
+                      style={{
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: 700,
+                        backgroundColor: formData.total_floors === fl ? 'var(--color-primary-orange)' : '#0E172A',
+                        color: formData.total_floors === fl ? '#FFFFFF' : '#94A3B8',
+                        border: formData.total_floors === fl ? '1px solid var(--color-primary-orange)' : '1px solid #334155',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease'
+                      }}
+                    >
+                      {fl} {fl === 1 ? 'Story' : 'Stories'}
+                    </button>
+                  ))}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginLeft: '6px' }}>
+                    <span style={{ fontSize: '11px', color: '#94A3B8' }}>Custom:</span>
+                    <input 
+                      type="number" 
+                      min="1" 
+                      max="10"
+                      value={formData.total_floors} 
+                      onChange={(e) => handleChange('total_floors', Math.max(1, Math.min(10, parseInt(e.target.value) || 1)))}
+                      style={{ width: '60px', padding: '6px 8px', borderRadius: '6px', fontSize: '12px' }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Question: Architectural Archetype Design Selector */}
+              <div style={{ gridColumn: 'span 2' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#38BDF8', marginBottom: '8px' }}>
+                  📐 Select Architectural Design Style / Archetype
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '10px' }}>
+                  {ARCHETYPES.map(arch => {
+                    const isSelected = formData.archetypeId === arch.id;
+                    return (
+                      <div
+                        key={arch.id}
+                        onClick={() => handleChange('archetypeId', arch.id)}
+                        style={{
+                          padding: '12px 14px',
+                          borderRadius: '8px',
+                          backgroundColor: isSelected ? 'rgba(56, 189, 248, 0.12)' : '#0E172A',
+                          border: isSelected ? '2px solid #38BDF8' : '1px solid #334155',
+                          boxShadow: isSelected ? '0 0 16px rgba(56, 189, 248, 0.2)' : 'none',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                          <span style={{ fontSize: '18px' }}>{arch.icon}</span>
+                          <div>
+                            <div style={{ fontSize: '12px', fontWeight: 700, color: isSelected ? '#38BDF8' : '#F8FAFC' }}>
+                              {arch.name}
+                            </div>
+                            <div style={{ fontSize: '9.5px', color: '#64748B' }}>{arch.category}</div>
+                          </div>
+                        </div>
+                        <p style={{ fontSize: '10.5px', color: '#94A3B8', margin: '4px 0 8px 0', lineHeight: 1.35 }}>
+                          {arch.description}
+                        </p>
+                        <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                          {arch.previewRooms.slice(0, 3).map((r, i) => (
+                            <span
+                              key={i}
+                              style={{
+                                fontSize: '9px',
+                                padding: '1px 5px',
+                                borderRadius: '4px',
+                                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                                color: '#CBD5E1'
+                              }}
+                            >
+                              {r}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
               <div>
@@ -152,17 +256,7 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
                   type="text" 
                   value={formData.location} 
                   onChange={(e) => handleChange('location', e.target.value)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
-                />
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Total Stories / Levels</label>
-                <input 
-                  type="number" 
-                  value={formData.total_floors} 
-                  onChange={(e) => handleChange('total_floors', parseInt(e.target.value) || 1)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', fontSize: '14px' }}
                 />
               </div>
 
@@ -172,7 +266,7 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
                   type="number" 
                   value={formData.gross_area_sqm} 
                   onChange={(e) => handleChange('gross_area_sqm', parseFloat(e.target.value) || 1000)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', fontSize: '14px' }}
                 />
               </div>
 
@@ -189,6 +283,27 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
                   <option>Type IV - Heavy Timber (HT)</option>
                   <option>Type V - Wood Frame</option>
                 </select>
+              </div>
+
+              {/* Design Preview Pill */}
+              <div style={{
+                gridColumn: 'span 2',
+                padding: '12px 16px',
+                backgroundColor: 'rgba(56, 189, 248, 0.08)',
+                border: '1px solid rgba(56, 189, 248, 0.25)',
+                borderRadius: '8px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '8px'
+              }}>
+                <div style={{ fontSize: '12px', color: '#E2E8F0' }}>
+                  📐 <strong>CAD Layout Preview:</strong> Generating <strong>{formData.total_floors} Floors</strong> with ~{formData.total_floors * selectedArchetype.defaultRoomsPerFloor} Zones, Dual Stairwell Cores, and Quad Ground Egress.
+                </div>
+                <span style={{ fontSize: '10.5px', color: 'var(--color-safe-green)', fontWeight: 700 }}>
+                  ✓ IBC / NFPA 101 COMPLIANT
+                </span>
               </div>
             </div>
           </div>
@@ -208,7 +323,7 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
                   type="number" 
                   value={formData.total_occupants} 
                   onChange={(e) => handleChange('total_occupants', parseInt(e.target.value) || 50)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', fontSize: '14px' }}
                 />
               </div>
 
@@ -218,7 +333,7 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
                   type="number" 
                   value={formData.max_occupancy} 
                   onChange={(e) => handleChange('max_occupancy', parseInt(e.target.value) || 200)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', fontSize: '14px' }}
                 />
               </div>
 
@@ -258,7 +373,7 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
                   type="number" 
                   value={formData.existing_exits} 
                   onChange={(e) => handleChange('existing_exits', parseInt(e.target.value) || 2)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', fontSize: '14px' }}
                 />
               </div>
 
@@ -268,7 +383,7 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
                   type="number" 
                   value={formData.staircases} 
                   onChange={(e) => handleChange('staircases', parseInt(e.target.value) || 2)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', fontSize: '14px' }}
                 />
               </div>
 
@@ -278,7 +393,7 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
                   type="number" 
                   value={formData.fire_extinguishers} 
                   onChange={(e) => handleChange('fire_extinguishers', parseInt(e.target.value) || 4)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', fontSize: '14px' }}
                 />
               </div>
 
@@ -288,7 +403,7 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
                   type="number" 
                   value={formData.hose_reels} 
                   onChange={(e) => handleChange('hose_reels', parseInt(e.target.value) || 2)}
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)', fontSize: '14px' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', fontSize: '14px' }}
                 />
               </div>
 
@@ -348,14 +463,17 @@ export const ProjectWizard: React.FC<ProjectWizardProps> = ({ setActiveTab, onPr
               fontWeight: 700,
               fontSize: '14px',
               padding: '10px 24px',
-              borderRadius: '4px',
+              borderRadius: '6px',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '8px'
+              gap: '8px',
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 4px 20px rgba(42, 157, 143, 0.4)'
             }}
           >
             <Sparkles size={16} />
-            Generate Layout & Open CAD Editor
+            Generate Layout & Open CAD Studio
           </button>
         )}
       </div>

@@ -190,6 +190,13 @@ export const App: React.FC = () => {
   };
 
   const handleProjectCreated = (newProjectData: any) => {
+    if (newProjectData && newProjectData.building && newProjectData.floors) {
+      setBuildingData(newProjectData);
+      setActiveFloorIdx(0);
+      setDemoBanner(`PROJECT GENERATED: ${newProjectData.building.name} with ${newProjectData.floors.length} floors.`);
+      setTimeout(() => setDemoBanner(null), 5000);
+      return;
+    }
     if (!buildingData) return;
     const numFloors = Math.max(1, Math.min(10, parseInt(newProjectData.total_floors) || 3));
     const generatedFloors: FloorData[] = [];
@@ -562,6 +569,13 @@ export const App: React.FC = () => {
                 floorData={currentFloor}
                 onUpdateFloor={handleUpdateCurrentFloor}
                 onOpenSimulation={() => setActiveTab('simulation')}
+                onGenerateNewBuilding={(newBld) => {
+                  setBuildingData(newBld);
+                  setActiveFloorIdx(0);
+                  setDemoBanner(`GENERATED: ${newBld.building.name} with ${newBld.floors.length} floors created.`);
+                  setTimeout(() => setDemoBanner(null), 5000);
+                }}
+                buildingData={buildingData || undefined}
               />
             )}
 
