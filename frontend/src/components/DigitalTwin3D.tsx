@@ -306,7 +306,13 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
 
         {/* View Preset Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ display: 'flex', border: '1px solid var(--color-border-subtle)', borderRadius: '6px', overflow: 'hidden' }}>
+          <div style={{
+            display: 'flex',
+            backgroundColor: '#0E172A',
+            border: '1px solid #334155',
+            borderRadius: '6px',
+            overflow: 'hidden'
+          }}>
             {(['ISOMETRIC', 'TOP_DOWN', 'FIRST_PERSON'] as const).map(mode => (
               <button
                 key={mode}
@@ -315,8 +321,11 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
                   padding: '7px 14px',
                   fontSize: '12px',
                   fontWeight: 700,
-                  backgroundColor: cameraMode === mode ? 'var(--color-navy-deep)' : '#FFFFFF',
-                  color: cameraMode === mode ? '#FFFFFF' : 'var(--color-charcoal)'
+                  backgroundColor: cameraMode === mode ? '#2563EB' : 'transparent',
+                  color: cameraMode === mode ? '#FFFFFF' : '#94A3B8',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
                 }}
               >
                 {mode === 'ISOMETRIC' ? 'Isometric 3D' : mode === 'TOP_DOWN' ? 'Top-Down Ortho' : 'Egress Perspective'}
@@ -334,12 +343,14 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
               borderRadius: '6px',
               fontSize: '12px',
               fontWeight: 700,
-              backgroundColor: showFire ? 'var(--color-safety-orange)' : 'var(--color-surface-pure)',
-              color: showFire ? '#FFFFFF' : 'var(--color-charcoal)',
-              border: '1px solid var(--color-border-subtle)'
+              backgroundColor: showFire ? 'var(--color-safety-orange)' : '#0E172A',
+              color: showFire ? '#FFFFFF' : '#94A3B8',
+              border: showFire ? '1px solid var(--color-safety-orange)' : '1px solid #334155',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease'
             }}
           >
-            <Flame size={14} />
+            <Flame size={14} color={showFire ? '#FFFFFF' : '#FF6B35'} />
             {showFire ? 'Hide Flame Volume' : 'Show Flame Volume'}
           </button>
         </div>
