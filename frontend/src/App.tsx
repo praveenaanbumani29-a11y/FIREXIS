@@ -28,7 +28,9 @@ import {
   BarChart2, 
   FileText,
   Radio,
-  Flame
+  Flame,
+  Plus,
+  Trash2
 } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -79,8 +81,199 @@ export const App: React.FC = () => {
     setBuildingData({ ...buildingData, floors: newFloors });
   };
 
+  const handleAddFloor = () => {
+    if (!buildingData) return;
+    const newFloorNum = buildingData.floors.length;
+    const baseW = buildingData.floors[0]?.width_m || 70.0;
+    const baseL = buildingData.floors[0]?.length_m || 45.0;
+
+    const newFloor: FloorData = {
+      id: `floor-${Date.now().toString().slice(-4)}`,
+      floor_number: newFloorNum,
+      name: `Level ${newFloorNum} — Architectural Floor Plan`,
+      elevation_m: newFloorNum * 4.0,
+      width_m: baseW,
+      length_m: baseL,
+      scale_ppm: 20.0,
+      rooms: [
+        {
+          id: `rm-${newFloorNum}01`,
+          name: `Zone ${newFloorNum}A Office`,
+          bounds: { x: 12, y: 10, width: 22, height: 14 },
+          occupant_load: 20
+        },
+        {
+          id: `rm-${newFloorNum}02`,
+          name: `Zone ${newFloorNum}B Workspace`,
+          bounds: { x: 38, y: 10, width: 22, height: 14 },
+          occupant_load: 20
+        }
+      ],
+      corridors: [
+        {
+          id: `cor-${newFloorNum}a`,
+          name: `Level ${newFloorNum} Central Corridor`,
+          position: { x: 35, y: 24 },
+          capacity: 80
+        }
+      ],
+      doors: [
+        {
+          id: `dr-${newFloorNum}01`,
+          name: `Office Door`,
+          position: { x: 23, y: 24 },
+          width_m: 1.4,
+          connects: [`rm-${newFloorNum}01`, `cor-${newFloorNum}a`]
+        }
+      ],
+      exits: [],
+      staircases: [
+        {
+          id: `stair-west-f${newFloorNum}`,
+          name: `Stairwell West Core`,
+          position: { x: 6, y: 14 },
+          capacity: 120,
+          connects: [`cor-${newFloorNum}a`]
+        }
+      ],
+      equipment: [
+        {
+          id: `eq-${newFloorNum}-ext-01`,
+          name: `ABC Fire Extinguisher`,
+          equipment_type: 'EXTINGUISHER_ABC',
+          position: { x: 24, y: 23 },
+          status: 'OPERATIONAL'
+        }
+      ]
+    };
+
+    const newFloors = [...buildingData.floors, newFloor];
+    setBuildingData({
+      ...buildingData,
+      building: {
+        ...buildingData.building,
+        total_floors: newFloors.length
+      },
+      floors: newFloors
+    });
+    setActiveFloorIdx(newFloors.length - 1);
+    setDemoBanner(`ADDED: Level ${newFloorNum} created and active in CAD & 3D Twin.`);
+    setTimeout(() => setDemoBanner(null), 4000);
+  };
+
+  const handleDeleteFloor = (floorIdxToDelete: number) => {
+    if (!buildingData || buildingData.floors.length <= 1) {
+      alert("At least one floor must remain in the building.");
+      return;
+    }
+    const confirmed = window.confirm(`Are you sure you want to delete ${buildingData.floors[floorIdxToDelete]?.name}?`);
+    if (!confirmed) return;
+
+    const remaining = buildingData.floors.filter((_, idx) => idx !== floorIdxToDelete);
+    const updatedFloors = remaining.map((fl, idx) => ({
+      ...fl,
+      floor_number: idx,
+      elevation_m: idx * 4.0
+    }));
+
+    setBuildingData({
+      ...buildingData,
+      building: {
+        ...buildingData.building,
+        total_floors: updatedFloors.length
+      },
+      floors: updatedFloors
+    });
+    setActiveFloorIdx(Math.max(0, floorIdxToDelete - 1));
+    setDemoBanner(`REMOVED: Floor level deleted successfully.`);
+    setTimeout(() => setDemoBanner(null), 4000);
+  };
+
   const handleProjectCreated = (newProjectData: any) => {
     if (!buildingData) return;
+    const numFloors = Math.max(1, Math.min(10, parseInt(newProjectData.total_floors) || 3));
+    const generatedFloors: FloorData[] = [];
+    for (let i = 0; i < numFloors; i++) {
+      generatedFloors.push({
+        id: `floor-${i}`,
+        floor_number: i,
+        name: i === 0 ? `Level 0 — Ground Floor & Egress Concourse` : `Level ${i} — Floor Plan`,
+        elevation_m: i * 4.0,
+        width_m: 70.0,
+        length_m: 45.0,
+        scale_ppm: 20.0,
+        rooms: [
+          {
+            id: `rm-${i}01`,
+            name: i === 0 ? 'Main Reception & Atrium' : `Zone ${i}A Work Hub`,
+            bounds: { x: 10, y: 10, width: 20, height: 14 },
+            occupant_load: 25
+          },
+          {
+            id: `rm-${i}02`,
+            name: i === 0 ? 'Auditorium Hall' : `Zone ${i}B Lab`,
+            bounds: { x: 38, y: 10, width: 22, height: 14 },
+            occupant_load: 30
+          }
+        ],
+        corridors: [
+          {
+            id: `cor-${i}a`,
+            name: `Level ${i} Central Concourse`,
+            position: { x: 35, y: 24 },
+            capacity: 80
+          }
+        ],
+        doors: [
+          {
+            id: `dr-${i}01`,
+            name: `Egress Door`,
+            position: { x: 20, y: 24 },
+            width_m: 1.6,
+            connects: [`rm-${i}01`, `cor-${i}a`]
+          }
+        ],
+        exits: i === 0 ? [
+          {
+            id: 'exit-north',
+            name: 'North Main Plaza Exit',
+            position: { x: 35, y: 2 },
+            discharge_type: 'OUTSIDE',
+            capacity_persons_min: 150,
+            is_blocked: false,
+            connects: ['cor-0a']
+          },
+          {
+            id: 'exit-south',
+            name: 'South Boulevard Exit',
+            position: { x: 35, y: 42 },
+            discharge_type: 'OUTSIDE',
+            capacity_persons_min: 120,
+            is_blocked: false,
+            connects: ['cor-0a']
+          }
+        ] : [],
+        staircases: [
+          {
+            id: `stair-west-f${i}`,
+            name: 'Stairwell Core West',
+            position: { x: 6, y: 14 },
+            capacity: 120,
+            connects: [`cor-${i}a`]
+          }
+        ],
+        equipment: [
+          {
+            id: `eq-ext-${i}01`,
+            name: 'ABC Extinguisher Unit',
+            equipment_type: 'EXTINGUISHER_ABC',
+            position: { x: 22, y: 23 },
+            status: 'OPERATIONAL'
+          }
+        ]
+      });
+    }
+
     const updated = {
       ...buildingData,
       building: {
@@ -88,10 +281,13 @@ export const App: React.FC = () => {
         name: newProjectData.name,
         building_type: newProjectData.building_type,
         gross_area_sqm: newProjectData.gross_area_sqm,
-        max_occupancy: newProjectData.max_occupancy
-      }
+        max_occupancy: newProjectData.max_occupancy,
+        total_floors: numFloors
+      },
+      floors: generatedFloors
     };
     setBuildingData(updated);
+    setActiveFloorIdx(0);
   };
 
   const handleApplyOptimization = () => {
@@ -243,6 +439,53 @@ export const App: React.FC = () => {
                     );
                   })}
                 </div>
+
+                <div style={{ width: '1px', height: '14px', backgroundColor: 'rgba(255, 255, 255, 0.12)' }} />
+
+                {/* Add Floor Button */}
+                <button
+                  onClick={handleAddFloor}
+                  title="Add New Architectural Floor Level"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '3px 8px',
+                    borderRadius: '5px',
+                    fontSize: '10.5px',
+                    fontWeight: 700,
+                    backgroundColor: 'rgba(56, 189, 248, 0.12)',
+                    color: '#38BDF8',
+                    border: '1px solid rgba(56, 189, 248, 0.3)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <Plus size={12} />
+                  <span>Add Floor</span>
+                </button>
+
+                {/* Delete Floor Button */}
+                {floors.length > 1 && (
+                  <button
+                    onClick={() => handleDeleteFloor(activeFloorIdx)}
+                    title={`Delete active floor (Level ${floors[activeFloorIdx]?.floor_number ?? activeFloorIdx})`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '3px 6px',
+                      borderRadius: '5px',
+                      fontSize: '10.5px',
+                      backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                      color: '#F87171',
+                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <Trash2 size={12} />
+                  </button>
+                )}
               </div>
             )}
 
