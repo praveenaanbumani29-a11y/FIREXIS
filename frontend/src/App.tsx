@@ -569,6 +569,7 @@ export const App: React.FC = () => {
                 floorData={currentFloor}
                 onUpdateFloor={handleUpdateCurrentFloor}
                 onOpenSimulation={() => setActiveTab('simulation')}
+                onOpen3D={() => setActiveTab('3d')}
                 onGenerateNewBuilding={(newBld) => {
                   setBuildingData(newBld);
                   setActiveFloorIdx(0);
@@ -595,6 +596,7 @@ export const App: React.FC = () => {
             {activeTab === '3d' && buildingData && (
               <DigitalTwin3D
                 buildingData={buildingData}
+                onOpenCAD={() => setActiveTab('editor')}
               />
             )}
 

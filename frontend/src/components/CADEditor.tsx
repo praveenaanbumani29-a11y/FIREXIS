@@ -22,13 +22,15 @@ import {
   Compass,
   ShieldCheck,
   Building2,
-  ArrowRight
+  ArrowRight,
+  Box
 } from 'lucide-react';
 
 interface CADEditorProps {
   floorData: FloorData;
   onUpdateFloor: (updated: FloorData) => void;
   onOpenSimulation: () => void;
+  onOpen3D?: () => void;
   onGenerateNewBuilding?: (newBuilding: BuildingData) => void;
   buildingData?: BuildingData;
 }
@@ -40,6 +42,7 @@ export const CADEditor: React.FC<CADEditorProps> = ({
   floorData,
   onUpdateFloor,
   onOpenSimulation,
+  onOpen3D,
   onGenerateNewBuilding,
   buildingData
 }) => {
@@ -432,6 +435,33 @@ export const CADEditor: React.FC<CADEditorProps> = ({
             <Activity size={16} />
             Compile & Launch Simulation
           </button>
+
+          {/* View in 3D Digital Twin Button */}
+          {onOpen3D && (
+            <button
+              id="cad-view-in-3d"
+              onClick={onOpen3D}
+              style={{
+                backgroundColor: 'rgba(56, 189, 248, 0.15)',
+                color: '#38BDF8',
+                border: '1px solid rgba(56, 189, 248, 0.4)',
+                fontWeight: 700,
+                fontSize: '12px',
+                padding: '8px 14px',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: '0 2px 10px rgba(56, 189, 248, 0.2)',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+              title="Open 3D Digital Twin with this 2D CAD design"
+            >
+              <Box size={14} />
+              <span>View in 3D Twin</span>
+            </button>
+          )}
         </div>
       </div>
 
