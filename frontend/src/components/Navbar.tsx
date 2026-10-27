@@ -71,17 +71,28 @@ export const Navbar: React.FC<NavbarProps> = ({
           title="Return to FIREXIS Launchpad"
         >
           <div style={{
-            background: 'linear-gradient(135deg, #FF6B35 0%, #E76F51 50%, #D62828 100%)',
-            borderRadius: '12px',
-            padding: '9px',
+            position: 'relative',
+            width: '40px',
+            height: '40px',
+            borderRadius: '10px',
+            overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 20px rgba(255, 107, 53, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.3)',
-            border: '1px solid rgba(255, 255, 255, 0.25)',
-            animation: 'pulseGlow 3s infinite'
+            background: '#0B1222',
+            border: '1px solid rgba(255, 107, 53, 0.45)',
+            boxShadow: '0 0 20px rgba(255, 107, 53, 0.4)',
+            flexShrink: 0
           }}>
-            <Flame size={20} color="#FFFFFF" />
+            <img 
+              src="/logo.png" 
+              alt="FIREXIS Shield Logo" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }} 
+            />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

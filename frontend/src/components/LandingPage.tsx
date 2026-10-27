@@ -142,7 +142,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ setActiveTab, onRunDem
               border: '1px solid rgba(255, 107, 53, 0.35)',
               boxShadow: '0 2px 12px rgba(255, 107, 53, 0.2)'
             }}>
-              <Sparkles size={13} />
+              <img src="/logo.png" alt="FIREXIS" style={{ width: '18px', height: '18px', borderRadius: '4px', objectFit: 'contain' }} />
               CONTECH AI · EVACUATION DIGITAL TWIN & SAFETY PLATFORM
             </div>
 
