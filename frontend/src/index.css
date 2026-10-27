@@ -1,0 +1,392 @@
+:root {
+  /* Tactical Cyber-Engineering Palette (Palantir / SpaceX Mission Control Aesthetic) */
+  --color-bg-pale: #080D1A;
+  --color-bg-base: #080D1A;
+  --color-bg-surface: #0E1626;
+  --color-surface-pure: #121D33;
+  --color-surface-elevated: #16243F;
+  --color-surface-translucent: rgba(18, 29, 51, 0.85);
+  --color-surface-glass: rgba(15, 23, 42, 0.75);
+
+  --color-navy-deep: #F8FAFC;
+  --color-navy-darker: #050811;
+  --color-navy-card: #0E1626;
+  --color-navy-light: #1E293B;
+
+  --color-charcoal: #E2E8F0;
+  --color-charcoal-muted: #94A3B8;
+  --color-text-muted: #64748B;
+
+  --color-soft-gray: rgba(255, 255, 255, 0.04);
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-highlight: rgba(56, 189, 248, 0.4);
+
+  /* Vibrant Hazard & Sensor Accents */
+  --color-primary-orange: #FF6B35;
+  --color-primary-orange-hover: #FF8554;
+  --color-safety-orange: #FF5722;
+  --color-safety-orange-glow: rgba(255, 107, 53, 0.45);
+
+  --color-safe-green: #10B981;
+  --color-safe-green-glow: rgba(16, 185, 129, 0.45);
+  --color-warning-yellow: #F59E0B;
+  --color-warning-yellow-glow: rgba(245, 158, 11, 0.45);
+  --color-danger-red: #EF4444;
+  --color-danger-red-glow: rgba(239, 68, 68, 0.5);
+  --color-cyan-electric: #00F2FE;
+  --color-cyan-glow: rgba(0, 242, 254, 0.4);
+
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Outfit', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 1px rgba(255, 255, 255, 0.15);
+  --shadow-glow-orange: 0 0 25px rgba(255, 107, 53, 0.45);
+  --shadow-glow-cyan: 0 0 25px rgba(0, 242, 254, 0.4);
+  --shadow-glow-green: 0 0 25px rgba(16, 185, 129, 0.45);
+  --shadow-glow-danger: 0 0 25px rgba(239, 68, 68, 0.5);
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--color-bg-pale);
+  background-image: 
+    radial-gradient(circle at 15% 10%, rgba(255, 107, 53, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(0, 242, 254, 0.04) 0%, transparent 40%),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+  color: var(--color-charcoal);
+  font-family: var(--font-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-navy-deep);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--color-charcoal-muted);
+}
+
+button {
+  font-family: var(--font-main);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Precision Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #060913;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+  border: 2px solid #060913;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Dynamic Keyframe Animations */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.6); }
+  70% { box-shadow: 0 0 0 12px rgba(255, 107, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+}
+
+@keyframes pulseGreen {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes pulseCyan {
+  0% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 242, 254, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); }
+}
+
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes radarSweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Glassmorphic Tactical Cards */
+.card {
+  background: var(--color-surface-pure);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(0, 242, 254, 0.12);
+  border-color: var(--color-border-highlight);
+}
+
+/* High-Impact Tactical Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #FF6B35 0%, #E76F51 50%, #D62828 100%);
+  background-size: 200% 200%;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.btn-primary:hover {
+  background-position: 100% 50%;
+  box-shadow: 0 6px 22px rgba(255, 107, 53, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--color-surface-pure);
+  color: var(--color-navy-deep);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid var(--color-border-subtle);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-surface-elevated);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
+  color: #060A14;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 242, 254, 0.4);
+  letter-spacing: 0.02em;
+}
+
+.btn-accent:hover {
+  box-shadow: 0 6px 22px rgba(0, 242, 254, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%);
+  color: #FFFFFF;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #F87171 0%, #DC2626 100%);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Luminous Tactical Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: var(--font-mono);
+}
+
+.badge-safe {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.badge-navy {
+  background: rgba(56, 189, 248, 0.12);
+  color: #38BDF8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.badge-orange {
+  background: rgba(255, 107, 53, 0.15);
+  color: #FF8554;
+  border: 1px solid rgba(255, 107, 53, 0.35);
+}
+
+.mono-metric {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Advanced Glassmorphism */
+.glass-panel {
+  background: rgba(18, 29, 51, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+}
+
+.glass-panel-dark {
+  background: rgba(8, 13, 26, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  color: #FFFFFF;
+}
+
+/* Inputs, Selects & Forms in Dark Theme */
+input, select, textarea {
+  background-color: #0E172A !important;
+  color: #F8FAFC !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-family: var(--font-main);
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px !important;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+option {
+  background-color: #0E172A !important;
+  color: #F8FAFC !important;
+  padding: 8px 12px;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--color-primary-orange) !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.25) !important;
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #CCCCCC !important;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+}

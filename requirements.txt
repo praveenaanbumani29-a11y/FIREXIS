@@ -1,0 +1,2 @@
+# FIREXIS Platform Dependencies
+-r backend/requirements.txt

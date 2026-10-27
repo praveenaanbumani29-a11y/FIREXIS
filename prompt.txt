@@ -1,0 +1,1300 @@
+# FIREXIS — MASTER SOFTWARE DEVELOPMENT PROMPT
+
+## ROLE
+
+You are a **Senior Software Architect, Full-Stack Developer, AI/ML Engineer, Simulation Engineer, Graph Algorithm Specialist, 3D Visualization Engineer, UI/UX Designer, Cybersecurity Engineer, QA Engineer, and DevOps Engineer** with extensive experience building production-grade engineering and safety applications.
+
+Your task is to design and develop **FIREXIS — Fire Exit Risk Evaluation and Intelligent Safety System**, a professional fire-safety planning, building-analysis, evacuation-simulation, and emergency-response software platform.
+
+Do not create a simple demo dashboard.
+
+Build a **modular, scalable, maintainable software system** with a strong foundation that can start as an academic prototype and later evolve into a professional ConTech / FireTech platform.
+
+---
+
+# 1. PROJECT VISION
+
+FIREXIS is a software platform that allows users to provide a building layout and building information, convert it into a digital building model, analyze evacuation connectivity, simulate emergency scenarios, identify risks, optimize evacuation routes, and generate safety recommendations.
+
+The system should support:
+
+- Building floor-plan input
+- Room and corridor mapping
+- Doors and staircases
+- Emergency exits
+- Number of floors
+- Occupancy information
+- Fire extinguisher locations
+- Hose reel locations
+- Emergency equipment
+- Firefighter access routes
+- Assembly points
+- Fire and smoke simulation
+- Crowd evacuation simulation
+- Evacuation route optimization
+- Risk-zone identification
+- 2D visualization
+- 3D digital-building visualization
+- Automated safety reports
+- Emergency information for authorized fire-service personnel
+
+The long-term vision is for FIREXIS to become a **professionally validated building fire-safety assessment and emergency preparedness platform**.
+
+Do NOT claim that the software automatically certifies a building or replaces statutory fire authorities. Treat it as a decision-support and simulation platform unless a specific regulatory integration has been formally implemented and validated.
+
+---
+
+# 2. CORE USER WORKFLOW
+
+The complete application should follow this workflow:
+
+BUILDING PLAN INPUT
+        ↓
+PLAN PROCESSING
+        ↓
+BUILDING DATA EXTRACTION
+        ↓
+DIGITAL BUILDING MODEL
+        ↓
+GRAPH GENERATION
+        ↓
+SAFETY ANALYSIS
+        ↓
+FIRE & SMOKE SIMULATION
+        ↓
+CROWD EVACUATION SIMULATION
+        ↓
+DYNAMIC ROUTE CALCULATION
+        ↓
+RISK ANALYSIS
+        ↓
+SAFETY OPTIMIZATION
+        ↓
+2D / 3D VISUALIZATION
+        ↓
+SAFETY REPORT
+        ↓
+EMERGENCY RESPONSE PROFILE
+
+---
+
+# 3. USER TYPES
+
+Design the system to support multiple roles.
+
+### ADMIN
+
+- Manage users
+- Manage projects
+- Manage system configuration
+- Manage simulation parameters
+- Manage regulatory rule sets
+- View system activity
+
+### ARCHITECT / CIVIL ENGINEER
+
+- Create projects
+- Upload building plans
+- Create building layouts
+- Configure floors and rooms
+- Run safety analysis
+- Run evacuation simulations
+- Review recommendations
+- Export reports
+
+### FIRE SAFETY PROFESSIONAL
+
+- Review fire safety analysis
+- Inspect emergency exits
+- Inspect firefighting equipment
+- Review evacuation routes
+- Validate recommendations
+- Generate assessment reports
+
+### FIRE / RESCUE PERSONNEL
+
+Provide authorized access to:
+
+- Building layout
+- Floor-by-floor maps
+- Emergency exits
+- Firefighter access points
+- Staircases
+- Fire equipment
+- Hazard zones
+- Assembly points
+- Emergency information
+
+---
+
+# 4. UI / UX DESIGN
+
+Create a **professional engineering application**, not a generic SaaS template.
+
+The interface should feel like a combination of:
+
+- Architectural software
+- Emergency management software
+- Engineering simulation software
+- Modern AI dashboard
+
+Use clean layouts, technical precision, clear hierarchy, and minimal unnecessary decoration.
+
+The application must be easy to understand during an emergency.
+
+Avoid excessive animations, unnecessary gradients, oversized cards, and decorative elements that interfere with technical information.
+
+---
+
+# 5. COLOR PALETTE
+
+Use a professional fire-safety color system.
+
+### Primary Colors
+
+**Light Orange**
+- HEX: #F4A261
+- Use for primary actions, active tools, important controls.
+
+**Safety Orange**
+- HEX: #E76F51
+- Use for fire-related warnings and emergency indicators.
+
+**Pale White**
+- HEX: #F8F9F7
+- Main application background.
+
+**Pure White**
+- HEX: #FFFFFF
+- Cards, panels, dialogs, and workspace surfaces.
+
+### Secondary Colors
+
+**Deep Navy**
+- HEX: #1D3557
+- Headers, navigation, important text, engineering elements.
+
+**Charcoal**
+- HEX: #263238
+- Primary text and technical labels.
+
+**Soft Gray**
+- HEX: #E9ECEF
+- Borders, inactive panels, secondary backgrounds.
+
+### Status Colors
+
+**Safe Green**
+- HEX: #2A9D8F
+- Safe routes and completed evacuation.
+
+**Warning Yellow**
+- HEX: #E9C46A
+- Moderate risk and caution.
+
+**Danger Red**
+- HEX: #D62828
+- Fire, blocked routes, critical danger.
+
+**Emergency Black**
+- HEX: #111111
+- High-priority emergency information.
+
+Use color consistently.
+
+Do not use red merely for decoration. Red should have semantic meaning.
+
+---
+
+# 6. MAIN APPLICATION STRUCTURE
+
+Create the following major screens.
+
+## Dashboard
+
+Display:
+
+- Total buildings
+- Active projects
+- Simulations completed
+- High-risk projects
+- Average evacuation time
+- Recent analyses
+- Recent alerts
+
+Include a quick-action area:
+
+- New Project
+- Upload Floor Plan
+- Open Simulation
+- View Reports
+
+---
+
+# 7. PROJECT CREATION
+
+Create a professional project wizard.
+
+Collect:
+
+### Building Information
+
+- Building name
+- Building type
+- Location
+- Number of floors
+- Total area
+- Construction type
+- Occupancy type
+
+### Occupancy
+
+- Total occupants
+- Occupants per floor
+- Maximum occupancy
+- Estimated mobility distribution
+
+### Safety Infrastructure
+
+- Existing exits
+- Staircases
+- Fire extinguishers
+- Hose reels
+- Fire alarms
+- Sprinklers
+- Emergency lighting
+- Assembly points
+
+---
+
+# 8. FLOOR PLAN EDITOR
+
+Create an interactive 2D editor.
+
+Users must be able to create and edit:
+
+- Walls
+- Rooms
+- Corridors
+- Doors
+- Windows
+- Staircases
+- Elevators
+- Emergency exits
+- Fire extinguishers
+- Hose reels
+- Fire alarms
+- Assembly points
+- Firefighter access points
+
+Allow:
+
+- Drag and drop
+- Resize
+- Rotate
+- Delete
+- Duplicate
+- Snap to grid
+- Measurement tools
+- Labels
+- Room naming
+- Floor switching
+
+---
+
+# 9. FLOOR PLAN IMPORT
+
+Support a modular import architecture.
+
+Initially support:
+
+- PNG
+- JPG
+- PDF
+
+Prepare the architecture for future:
+
+- DXF
+- DWG
+- IFC
+- BIM
+
+Do not pretend automatic architectural recognition is perfect.
+
+For image/PDF plans, provide a **manual verification layer** where users can confirm detected rooms, walls, doors, and exits.
+
+---
+
+# 10. DIGITAL BUILDING MODEL
+
+Convert the 2D layout into a structured digital model.
+
+Represent:
+
+### Nodes
+
+- Rooms
+- Doors
+- Corridors
+- Staircases
+- Exits
+- Assembly points
+
+### Edges
+
+- Walkable connections
+- Door connections
+- Stair connections
+- Floor connections
+
+Every connection should contain metadata such as:
+
+- Distance
+- Width
+- Estimated travel time
+- Capacity
+- Hazard level
+- Smoke level
+- Fire status
+- Crowd density
+
+---
+
+# 11. GRAPH ALGORITHM ENGINE
+
+Implement a dedicated graph-analysis module.
+
+### DFS
+
+Use for:
+
+- Connectivity analysis
+- Detecting disconnected areas
+- Identifying isolated zones
+
+### BFS
+
+Use for:
+
+- Basic nearest-exit exploration
+- Unweighted route analysis
+
+### Dijkstra
+
+Use for:
+
+- Weighted evacuation paths
+- Distance-based optimization
+- Hazard-aware path costs
+
+### A*
+
+Use for:
+
+- Fast dynamic pathfinding
+- Emergency route recalculation
+- Hazard-aware evacuation
+
+Design the system so algorithms can be swapped or extended without rewriting the application.
+
+---
+
+# 12. DYNAMIC ROUTE COST
+
+Create a configurable route-cost model.
+
+Example:
+
+ROUTE COST =
+
+Distance Cost
++
+Travel Time
++
+Crowd Congestion
++
+Fire Risk
++
+Smoke Risk
++
+Blocked Route Penalty
+
+The system should continuously update route conditions during simulation.
+
+If a route becomes unsafe:
+
+ROUTE ACTIVE
+      ↓
+HAZARD DETECTED
+      ↓
+ROUTE COST INCREASED
+      ↓
+PATH RE-EVALUATED
+      ↓
+ALTERNATIVE ROUTE SELECTED
+
+---
+
+# 13. FIRE SIMULATION
+
+Create a prototype fire propagation engine.
+
+Represent the environment as a grid or spatial graph.
+
+Possible states:
+
+- SAFE
+- HEATING
+- FIRE
+- SMOKE
+- BLOCKED
+- CONTAINED
+
+Allow the user to define:
+
+- Fire origin
+- Start time
+- Fire intensity
+- Spread parameters
+
+Display fire propagation visually.
+
+Keep simulation parameters configurable.
+
+Clearly label simplified simulation results as simulation estimates.
+
+---
+
+# 14. SMOKE SIMULATION
+
+Implement simplified smoke propagation.
+
+Consider:
+
+- Adjacent spaces
+- Door openings
+- Corridors
+- Staircases
+- Ventilation assumptions
+
+Track:
+
+- Smoke density
+- Visibility
+- Hazard level
+
+When smoke reaches a route, update its risk score.
+
+---
+
+# 15. CROWD EVACUATION ENGINE
+
+Create an agent-based simulation.
+
+Each occupant should have parameters such as:
+
+- Starting location
+- Walking speed
+- Reaction time
+- Preferred exit
+- Mobility characteristics
+- Route familiarity
+
+Simulate:
+
+- Normal evacuation
+- Congested evacuation
+- Blocked exits
+- Alternative route selection
+
+Measure:
+
+- Evacuation time
+- Exit utilization
+- Crowd density
+- Bottleneck locations
+- Remaining occupants
+- At-risk occupants
+
+---
+
+# 16. PANIC / HUMAN BEHAVIOR MODEL
+
+Do not claim to perfectly predict human panic.
+
+Use configurable probabilistic behavior.
+
+Parameters may include:
+
+- Reaction delay
+- Exit preference
+- Group-following behavior
+- Route familiarity
+- Speed variation
+
+Allow multiple simulation runs to produce different possible outcomes.
+
+---
+
+# 17. RISK ENGINE
+
+Generate risk scores for:
+
+- Rooms
+- Corridors
+- Staircases
+- Exits
+- Fire equipment
+- Occupancy zones
+
+Example:
+
+LOW
+MEDIUM
+HIGH
+CRITICAL
+
+Show risk using:
+
+- Heat maps
+- Route colors
+- Warning markers
+- Statistics
+
+---
+
+# 18. SAFETY OPTIMIZATION
+
+Provide recommendations such as:
+
+- Additional emergency exit candidate
+- Alternative evacuation route
+- Fire extinguisher placement
+- Hose reel placement
+- Emergency lighting
+- Exit signage
+- Assembly point
+- Firefighter access route
+
+Every recommendation must include:
+
+- Reason
+- Affected area
+- Expected benefit
+- Simulation evidence
+- Confidence level
+
+Do not present recommendations as legally approved requirements.
+
+---
+
+# 19. 3D DIGITAL TWIN
+
+Create an interactive 3D visualization using Three.js.
+
+Display:
+
+- Floors
+- Walls
+- Rooms
+- Staircases
+- Doors
+- Exits
+- Occupants
+- Fire
+- Smoke
+- Evacuation paths
+
+Provide:
+
+- Rotate
+- Zoom
+- Pan
+- Floor isolation
+- First-person view
+- Emergency simulation playback
+
+---
+
+# 20. SIMULATION CONTROL PANEL
+
+Provide controls:
+
+START
+PAUSE
+STOP
+RESET
+SPEED ×0.5
+SPEED ×1
+SPEED ×2
+SPEED ×4
+
+Allow selection of:
+
+- Fire origin
+- Number of occupants
+- Blocked exit
+- Simulation scenario
+- Floor
+- Weather/ventilation assumptions where supported
+
+---
+
+# 21. LIVE SIMULATION DASHBOARD
+
+Display:
+
+TOTAL OCCUPANTS
+EVACUATED
+EVACUATING
+AT RISK
+EVACUATION TIME
+ACTIVE FIRE ZONES
+SMOKE ZONES
+BLOCKED ROUTES
+AVAILABLE EXITS
+MAXIMUM CROWD DENSITY
+
+Use live updates.
+
+---
+
+# 22. BEFORE / AFTER ANALYSIS
+
+Provide a comparison mode.
+
+### ORIGINAL
+
+- Evacuation time
+- Bottlenecks
+- High-risk zones
+- Exit utilization
+
+### OPTIMIZED
+
+- Evacuation time
+- Reduced congestion
+- Improved route distribution
+- Improved safety coverage
+
+Show measurable differences.
+
+---
+
+# 23. FIREFIGHTER MODE
+
+Create a dedicated emergency-response interface.
+
+Display:
+
+- Building overview
+- Floor selector
+- Fire location
+- Smoke zones
+- Emergency exits
+- Fire equipment
+- Staircases
+- Firefighter access
+- Assembly points
+- Hazard zones
+
+Include a simplified emergency map designed for fast interpretation.
+
+Do not expose unnecessary engineering complexity in emergency mode.
+
+---
+
+# 24. REPORT GENERATION
+
+Generate professional reports containing:
+
+1. Building information
+2. Occupancy information
+3. Safety infrastructure
+4. Evacuation analysis
+5. Fire simulation
+6. Smoke simulation
+7. Crowd analysis
+8. Risk assessment
+9. Bottlenecks
+10. Recommended improvements
+11. Simulation metrics
+12. Emergency response information
+
+Allow PDF export.
+
+---
+
+# 25. DATABASE ARCHITECTURE
+
+Design a relational database.
+
+Core entities:
+
+- Users
+- Organizations
+- Projects
+- Buildings
+- Floors
+- Rooms
+- Doors
+- Corridors
+- Staircases
+- Exits
+- Equipment
+- Occupants
+- Simulations
+- Simulation Runs
+- Fire Events
+- Risk Zones
+- Recommendations
+- Reports
+- Audit Logs
+
+Use proper relationships and indexes.
+
+---
+
+# 26. BACKEND ARCHITECTURE
+
+Use:
+
+**Python + FastAPI**
+
+Organize backend into modules:
+
+```text
+backend/
+├── api/
+├── auth/
+├── buildings/
+├── floors/
+├── geometry/
+├── graph_engine/
+├── evacuation/
+├── fire_simulation/
+├── smoke_simulation/
+├── crowd_simulation/
+├── risk_engine/
+├── optimization/
+├── reports/
+├── database/
+├── services/
+├── tests/
+└── config/
+```
+
+Use REST APIs with clear contracts.
+
+Prepare the architecture for WebSocket-based real-time simulation updates.
+
+---
+
+# 27. FRONTEND ARCHITECTURE
+
+Use:
+
+**React + TypeScript**
+
+Suggested structure:
+
+```text
+frontend/
+├── components/
+├── pages/
+├── layouts/
+├── editor/
+├── simulation/
+├── dashboard/
+├── 3d/
+├── maps/
+├── reports/
+├── services/
+├── hooks/
+├── state/
+├── types/
+├── utils/
+└── tests/
+```
+
+Use reusable components.
+
+Avoid putting the entire application into one giant component.
+
+---
+
+# 28. STATE MANAGEMENT
+
+Separate:
+
+- Building state
+- Editor state
+- Simulation state
+- User state
+- UI state
+
+Simulation state should be capable of receiving real-time updates.
+
+---
+
+# 29. SECURITY
+
+Implement:
+
+- Authentication
+- Role-based access control
+- Secure password storage
+- JWT/session security
+- API authorization
+- Input validation
+- File upload validation
+- Rate limiting
+- Audit logging
+
+Building plans can be sensitive information.
+
+Treat uploaded plans as protected project data.
+
+---
+
+# 30. DEVOPS
+
+Create a production-ready deployment structure.
+
+Use:
+
+- Docker
+- Docker Compose
+- Nginx
+- CI/CD
+- Environment variables
+- Automated testing
+- Logging
+- Health checks
+
+Suggested deployment:
+
+```text
+USER
+ ↓
+NGINX
+ ↓
+REACT FRONTEND
+ ↓
+FASTAPI BACKEND
+ ↓
+SIMULATION SERVICES
+ ↓
+POSTGRESQL
+```
+
+Prepare the architecture so heavy simulations can eventually run in separate worker services.
+
+---
+
+# 31. TESTING
+
+Create tests for:
+
+### Unit Tests
+
+- Graph algorithms
+- Fire propagation
+- Smoke propagation
+- Route calculation
+- Risk scoring
+
+### Integration Tests
+
+- API
+- Database
+- Simulation engine
+- Report generation
+
+### UI Tests
+
+- Building editor
+- Upload workflow
+- Simulation controls
+- Dashboard
+
+### Stress Tests
+
+Test large numbers of:
+
+- Rooms
+- Occupants
+- Simulation steps
+- Floors
+
+---
+
+# 32. PERFORMANCE
+
+Optimize for:
+
+- Large floor plans
+- Multi-floor buildings
+- Hundreds or thousands of agents
+- Real-time simulation
+- 3D rendering
+
+Use:
+
+- Spatial partitioning
+- Efficient graph structures
+- Web Workers where useful
+- Backend workers
+- Caching
+- Incremental updates
+
+Do not unnecessarily send the entire simulation state to the browser every frame.
+
+---
+
+# 33. ERROR HANDLING
+
+Every important operation should have clear errors.
+
+Examples:
+
+“Invalid floor plan.”
+
+“Emergency exit is not connected to an accessible route.”
+
+“Floor contains disconnected rooms.”
+
+“Simulation cannot start because no evacuation exit is defined.”
+
+“Unable to process uploaded file.”
+
+Never silently fail.
+
+---
+
+# 34. DEMO MODE
+
+Create a preloaded demonstration building.
+
+The demo should contain:
+
+- Multiple floors
+- Multiple rooms
+- Multiple exits
+- Staircases
+- Fire equipment
+- 100+ simulated occupants
+- One fire scenario
+- One blocked exit
+
+The user should be able to click:
+
+**RUN DEMO**
+
+and immediately see the complete FIREXIS workflow.
+
+This is essential for presentations and hackathons.
+
+---
+
+# 35. VISUAL DESIGN
+
+The application should visually communicate:
+
+**SAFETY + ENGINEERING + INTELLIGENCE + TRUST**
+
+Use:
+
+- Pale white backgrounds
+- Light orange primary actions
+- Deep navy navigation
+- Orange emergency indicators
+- Red critical warnings
+- Green safe routes
+- Yellow moderate-risk zones
+- Thin technical borders
+- Clean typography
+- Professional icons
+
+Avoid:
+
+- Neon colors
+- Excessive gradients
+- Gaming-style interfaces
+- Excessive glassmorphism
+- Cartoon illustrations
+- Unnecessary animations
+
+---
+
+# 36. LANDING PAGE
+
+Create a professional landing page.
+
+Hero section:
+
+**FIREXIS**
+
+**Intelligent Fire Safety Planning & Emergency Evacuation Simulation**
+
+Subtitle:
+
+“Analyze building safety. Simulate emergencies. Optimize evacuation.”
+
+Primary buttons:
+
+**Start New Project**
+
+**View Demo**
+
+Show a realistic digital-building visualization.
+
+---
+
+# 37. ENGINEERING PRINCIPLE
+
+The application must distinguish between:
+
+### Deterministic Results
+
+Examples:
+
+- Graph connectivity
+- Calculated route distance
+- Number of exits
+- Number of rooms
+
+### Simulation Estimates
+
+Examples:
+
+- Fire spread
+- Smoke propagation
+- Evacuation time
+- Crowd behavior
+
+### AI Predictions
+
+Examples:
+
+- Risk classification
+- Congestion prediction
+- Recommendation ranking
+
+Always communicate uncertainty appropriately.
+
+---
+
+# 38. DEVELOPMENT STRATEGY
+
+Do not attempt to implement every feature simultaneously.
+
+Build in phases.
+
+### PHASE 1
+
+- Authentication
+- Project creation
+- Manual floor-plan editor
+- Rooms
+- Doors
+- Corridors
+- Exits
+
+### PHASE 2
+
+- Graph generation
+- DFS
+- BFS
+- Dijkstra
+- A*
+
+### PHASE 3
+
+- Fire simulation
+- Smoke simulation
+- Dynamic route blocking
+
+### PHASE 4
+
+- Crowd simulation
+- Evacuation metrics
+- Congestion analysis
+
+### PHASE 5
+
+- Risk engine
+- Recommendations
+- Safety reports
+
+### PHASE 6
+
+- Three.js 3D digital twin
+- Firefighter mode
+
+### PHASE 7
+
+- AI/ML
+- Automated plan recognition
+- Optimization
+- Predictive analytics
+
+### PHASE 8
+
+- Production deployment
+- Monitoring
+- Security hardening
+- Performance optimization
+
+---
+
+# 39. CODE QUALITY RULES
+
+Write:
+
+- Clean code
+- Modular code
+- Strong typing
+- Meaningful variable names
+- Reusable components
+- Documentation
+- Error handling
+- Tests
+
+Do not:
+
+- Hard-code project data unnecessarily
+- Create fake AI outputs
+- Create fake simulation results
+- Hide errors
+- Put all logic into the frontend
+- Use placeholder buttons that do nothing
+
+If a feature is not implemented, clearly mark it as:
+
+**Coming Soon**
+
+or implement a functional prototype version.
+
+---
+
+# 40. FINAL PRODUCT REQUIREMENT
+
+The completed prototype should allow a user to perform this complete journey:
+
+```text
+CREATE PROJECT
+      ↓
+ADD BUILDING
+      ↓
+ADD FLOORS
+      ↓
+CREATE / UPLOAD PLAN
+      ↓
+DEFINE ROOMS & ROUTES
+      ↓
+DEFINE EXITS
+      ↓
+DEFINE OCCUPANCY
+      ↓
+RUN SAFETY ANALYSIS
+      ↓
+SELECT FIRE LOCATION
+      ↓
+RUN SIMULATION
+      ↓
+WATCH FIRE + SMOKE
+      ↓
+WATCH CROWD EVACUATION
+      ↓
+DETECT BLOCKED ROUTES
+      ↓
+RECALCULATE SAFE ROUTES
+      ↓
+ANALYZE RISKS
+      ↓
+GENERATE RECOMMENDATIONS
+      ↓
+VIEW 2D / 3D RESULTS
+      ↓
+GENERATE SAFETY REPORT
+```
+
+---
+
+# 41. SUCCESS CRITERIA
+
+The first working prototype is successful if a user can:
+
+1. Create a building.
+2. Add multiple floors.
+3. Create rooms and corridors.
+4. Define doors and exits.
+5. Generate a building graph.
+6. Run DFS/BFS/Dijkstra/A* analysis.
+7. Start a fire simulation.
+8. Block unsafe routes dynamically.
+9. Simulate occupants.
+10. Calculate evacuation results.
+11. Display risk zones.
+12. Recommend safety improvements.
+13. View the building in 2D/3D.
+14. Generate a professional report.
+
+---
+
+# 42. IMPORTANT PRODUCT POSITIONING
+
+FIREXIS should be presented as:
+
+**An AI-assisted digital fire-safety planning, simulation, and emergency preparedness platform.**
+
+The long-term vision is:
+
+**Every proposed building can be digitally tested for evacuation and fire-safety risks before construction, while authorized emergency responders can access structured building emergency information when responding to an incident.**
+
+Do not claim regulatory certification unless the system has been formally validated and approved by the relevant authority.
+
+---
+
+# 43. FIRST DEVELOPMENT TASK
+
+Before writing the full application:
+
+1. Analyze the complete architecture.
+2. Define the database schema.
+3. Define API endpoints.
+4. Define frontend routes.
+5. Define component architecture.
+6. Define simulation-engine interfaces.
+7. Define data models.
+8. Define the folder structure.
+9. Define Docker configuration.
+10. Define CI/CD strategy.
+
+Then implement the application incrementally.
+
+For every phase:
+
+- Build
+- Test
+- Validate
+- Fix
+- Document
+- Continue
+
+Do not skip foundational architecture.
+
+The final result should look and behave like a **serious engineering safety platform**, not a student dashboard assembled from random UI cards.
+
+# FINAL COMMAND
+
+Build FIREXIS as a complete, modular, scalable, professional software platform following all requirements above.
+
+Prioritize:
+
+**FUNCTIONALITY → SAFETY → CORRECTNESS → PERFORMANCE → UX → VISUAL POLISH**
+
+Every major feature must be functional or explicitly marked as a prototype/simulation feature.
+
+Make the system impressive enough for an innovation competition while keeping the underlying architecture realistic enough to evolve into a production-grade FireTech/ConTech platform.
