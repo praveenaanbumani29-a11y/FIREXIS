@@ -21,7 +21,8 @@ interface DigitalTwin3DProps {
 export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [cameraMode, setCameraMode] = useState<'ISOMETRIC' | 'TOP_DOWN' | 'FIRST_PERSON'>('ISOMETRIC');
-  const [floorSeparation, setFloorSeparation] = useState<number>(0); // 0 = closed, up to 25 = exploded view
+  const [selectedFloor, setSelectedFloor] = useState<'ALL' | number>('ALL');
+  const [floorSeparation, setFloorSeparation] = useState<number>(8); // 8m default vertical separation between floors
   const [showFire, setShowFire] = useState(true);
   const [showAgents, setShowAgents] = useState(true);
 
@@ -34,7 +35,7 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
   // Mouse orbit interaction state
   const isDraggingRef = useRef(false);
   const prevMouseRef = useRef({ x: 0, y: 0 });
-  const sphericalRef = useRef({ radius: 150, theta: Math.PI / 4, phi: Math.PI / 3 });
+  const sphericalRef = useRef({ radius: 155, theta: Math.PI / 4, phi: Math.PI / 3 });
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -85,15 +86,16 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
 
     // 6. Build Multi-Story Building Geometry
     const floorGroups: THREE.Group[] = [];
+    const baseSpacing = 9.0;
 
     buildingData.floors.forEach((fl, idx) => {
       const floorGroup = new THREE.Group();
-      floorGroup.position.y = fl.elevation_m || idx * 14;
+      floorGroup.position.y = idx * (baseSpacing + floorSeparation);
 
       // Floor Slab
       const slabGeo = new THREE.BoxGeometry(fl.width_m, 0.6, fl.length_m);
       const slabMat = new THREE.MeshStandardMaterial({
-        color: idx === 0 ? 0x1E293B : 0x24354D,
+        color: idx === 0 ? 0x1E293B : idx === 1 ? 0x24354D : 0x1A2B42,
         roughness: 0.7,
         metalness: 0.2
       });
@@ -250,7 +252,7 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
     if (!cameraRef.current) return;
     const { radius, theta, phi } = sphericalRef.current;
     const centerX = 35;
-    const centerY = 5;
+    const centerY = selectedFloor === 'ALL' ? (buildingData.floors.length * 4.5) : 3;
     const centerZ = 22;
 
     cameraRef.current.position.x = centerX + radius * Math.sin(phi) * Math.sin(theta);
@@ -259,14 +261,24 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
     cameraRef.current.lookAt(centerX, centerY, centerZ);
   };
 
-  // Update exploded view floor separation
+  // Update exploded view floor separation and floor isolation
   useEffect(() => {
+    const baseSpacing = 9.0;
     floorGroupsRef.current.forEach((grp, idx) => {
-      if (idx > 0) {
-        grp.position.y = (buildingData.floors[idx]?.elevation_m || idx * 14) + (idx * floorSeparation);
+      if (selectedFloor === 'ALL') {
+        grp.visible = true;
+        grp.position.y = idx * (baseSpacing + floorSeparation);
+      } else {
+        grp.visible = idx === selectedFloor;
+        grp.position.y = 0;
       }
     });
-  }, [floorSeparation]);
+
+    if (fireMeshRef.current) {
+      fireMeshRef.current.visible = showFire && (selectedFloor === 'ALL' || selectedFloor === 0);
+    }
+    updateCameraPosition();
+  }, [selectedFloor, floorSeparation, showFire]);
 
   const handleCameraPreset = (mode: 'ISOMETRIC' | 'TOP_DOWN' | 'FIRST_PERSON') => {
     setCameraMode(mode);
@@ -275,7 +287,7 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
     } else if (mode === 'FIRST_PERSON') {
       sphericalRef.current = { radius: 45, theta: Math.PI / 6, phi: Math.PI / 2.2 };
     } else {
-      sphericalRef.current = { radius: 150, theta: Math.PI / 4, phi: Math.PI / 3 };
+      sphericalRef.current = { radius: 155, theta: Math.PI / 4, phi: Math.PI / 3 };
     }
     updateCameraPosition();
   };
@@ -300,12 +312,58 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
             <span className="badge badge-navy">SECTION 19 COMPLIANT</span>
           </div>
           <p style={{ color: 'var(--color-text-muted)', fontSize: '13px' }}>
-            Interactive WebGL 3D architectural twin of {buildingData.building.name}. Click & drag to rotate; scroll to zoom.
+            Interactive WebGL 3D architectural twin of {buildingData.building.name}. Total {buildingData.floors.length} stories loaded. Click & drag to rotate; scroll to zoom.
           </p>
         </div>
 
-        {/* View Preset Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* View Preset Controls & Floor Selector */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          
+          {/* Floor Isolator */}
+          <div style={{
+            display: 'flex',
+            backgroundColor: '#0E172A',
+            border: '1px solid #334155',
+            borderRadius: '6px',
+            overflow: 'hidden'
+          }}>
+            <button
+              onClick={() => setSelectedFloor('ALL')}
+              style={{
+                padding: '7px 12px',
+                fontSize: '12px',
+                fontWeight: 700,
+                backgroundColor: selectedFloor === 'ALL' ? 'var(--color-primary-orange)' : 'transparent',
+                color: selectedFloor === 'ALL' ? '#FFFFFF' : '#94A3B8',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              All {buildingData.floors.length} Stories
+            </button>
+            {buildingData.floors.map((fl, idx) => (
+              <button
+                key={fl.id || idx}
+                onClick={() => setSelectedFloor(idx)}
+                style={{
+                  padding: '7px 12px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  backgroundColor: selectedFloor === idx ? 'var(--color-primary-orange)' : 'transparent',
+                  color: selectedFloor === idx ? '#FFFFFF' : '#94A3B8',
+                  border: 'none',
+                  borderLeft: '1px solid #1E293B',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                Lvl {fl.floor_number ?? idx}
+              </button>
+            ))}
+          </div>
+
+          {/* Camera Presets */}
           <div style={{
             display: 'flex',
             backgroundColor: '#0E172A',
@@ -333,6 +391,7 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
             ))}
           </div>
 
+          {/* Flame Volume Toggle */}
           <button
             onClick={() => setShowFire(!showFire)}
             style={{
@@ -379,21 +438,31 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
           width: '240px'
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            <span>Exploded Floor View</span>
-            <span style={{ color: 'var(--color-primary-orange)' }}>+{floorSeparation}m</span>
+            <span>{selectedFloor === 'ALL' ? 'Exploded Floor View' : `Level ${selectedFloor} Isolated`}</span>
+            <span style={{ color: 'var(--color-primary-orange)' }}>
+              {selectedFloor === 'ALL' ? `+${floorSeparation}m` : 'Active'}
+            </span>
           </div>
-          <input
-            type="range"
-            min="0"
-            max="25"
-            value={floorSeparation}
-            onChange={(e) => setFloorSeparation(parseInt(e.target.value))}
-            style={{ width: '100%', accentColor: 'var(--color-primary-orange)' }}
-          />
-          <div style={{ fontSize: '10px', color: '#90A4AE', display: 'flex', justifyContent: 'space-between' }}>
-            <span>Closed (0m)</span>
-            <span>Exploded (25m)</span>
-          </div>
+          {selectedFloor === 'ALL' ? (
+            <>
+              <input
+                type="range"
+                min="0"
+                max="25"
+                value={floorSeparation}
+                onChange={(e) => setFloorSeparation(parseInt(e.target.value))}
+                style={{ width: '100%', accentColor: 'var(--color-primary-orange)' }}
+              />
+              <div style={{ fontSize: '10px', color: '#90A4AE', display: 'flex', justifyContent: 'space-between' }}>
+                <span>Compact (0m)</span>
+                <span>Exploded (25m)</span>
+              </div>
+            </>
+          ) : (
+            <div style={{ fontSize: '11px', color: '#94A3B8' }}>
+              Viewing single story in isolation. Select &quot;All Stories&quot; to expand multi-deck view.
+            </div>
+          )}
         </div>
 
         {/* Bottom Floating Telemetry Bar */}
@@ -417,7 +486,11 @@ export const DigitalTwin3D: React.FC<DigitalTwin3DProps> = ({ buildingData }) =>
           </div>
           <div>
             <div style={{ color: '#90A4AE', fontSize: '10px', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>Stories Loaded</div>
-            <div style={{ fontWeight: 700 }}>Ground Floor + Level 1</div>
+            <div style={{ fontWeight: 700, color: '#38BDF8' }}>
+              {selectedFloor === 'ALL' 
+                ? `All ${buildingData.floors.length} Floors (3D Multi-Deck)` 
+                : `Isolated: ${buildingData.floors[selectedFloor]?.name?.split('—')[0] || `Floor ${selectedFloor}`}`}
+            </div>
           </div>
           <div>
             <div style={{ color: '#90A4AE', fontSize: '10px', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>Incident Zone</div>

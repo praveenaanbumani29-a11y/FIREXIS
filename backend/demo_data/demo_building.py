@@ -92,6 +92,36 @@ def get_demo_building_data() -> Dict[str, Any]:
                 "equipment": [
                     {"id": "eq-1-ext-01", "name": "Lab Extinguisher ABC", "equipment_type": "EXTINGUISHER_ABC", "position": {"x": 24, "y": 23}, "status": "OPERATIONAL"}
                 ]
+            },
+            {
+                "id": "floor-2",
+                "floor_number": 2,
+                "name": "Level 2 — Executive Suites & Sky Terrace",
+                "elevation_m": 8.0,
+                "width_m": 70.0,
+                "length_m": 45.0,
+                "scale_ppm": 20.0,
+                "rooms": [
+                    {"id": "rm-201", "name": "Executive Boardroom & Briefing Suite", "bounds": {"x": 10, "y": 10, "width": 22, "height": 14}, "occupant_load": 20},
+                    {"id": "rm-202", "name": "Advanced Robotics & R&D Lab", "bounds": {"x": 38, "y": 10, "width": 24, "height": 14}, "occupant_load": 25},
+                    {"id": "rm-203", "name": "Operations Strategy Room", "bounds": {"x": 10, "y": 28, "width": 24, "height": 12}, "occupant_load": 15},
+                    {"id": "rm-204", "name": "Sky Terrace & Solar Deck", "bounds": {"x": 38, "y": 28, "width": 24, "height": 12}, "occupant_load": 20}
+                ],
+                "corridors": [
+                    {"id": "cor-2a", "name": "Level 2 Executive Promenade", "position": {"x": 35, "y": 24}, "capacity": 60}
+                ],
+                "doors": [
+                    {"id": "dr-201", "name": "Boardroom Main Access", "position": {"x": 22, "y": 24}, "width_m": 1.4, "connects": ["rm-201", "cor-2a"]},
+                    {"id": "dr-202", "name": "Robotics Lab Secure Egress", "position": {"x": 45, "y": 24}, "width_m": 1.4, "connects": ["rm-202", "cor-2a"]}
+                ],
+                "exits": [],
+                "staircases": [
+                    {"id": "stair-west-f2", "name": "Stairwell West Descent Core", "position": {"x": 6, "y": 14}, "capacity": 120, "connects": ["cor-2a"]},
+                    {"id": "stair-east-f2", "name": "Stairwell East Descent Core", "position": {"x": 64, "y": 14}, "capacity": 120, "connects": ["cor-2a"]}
+                ],
+                "equipment": [
+                    {"id": "eq-2-ext-01", "name": "Executive Suite Clean Agent Extinguisher", "equipment_type": "EXTINGUISHER", "position": {"x": 24, "y": 23}, "status": "OPERATIONAL"}
+                ]
             }
         ],
         "scenario": {
